@@ -1,7 +1,12 @@
 # perceptive_legged_control 项目编译和仿真指南
-
+## 项目介绍
+主要实现了 **Perceptive Locomotion Through Nonlinear Model-Predictive Control**
+测试环境为Vmware虚拟机 运行Ubuntu 20.04 使用I5 12490F 4.5Ghz 分配给虚拟机2个核心四个线程。
+参考廖佬的**legged_control**的仿真框架，进行测试。
+实际运行时，在梅花桩的地形成功率较低。求解很容易崩溃。
+在虚拟机仿真中，需要使用预先制作的高程图，若使用cpu版本的高程图，在大幅机动时，感知运算处理较慢，会导致建图出错，进而导致运动规划出错。在实体机运行时，可以使用gpu版本的高程图。传感器使用深度相机，经过低通滤波和自碰撞滤波。
 本项目使用 **catkin tools** 进行编译，包含 **debug** 和 **release** 配置。如遇到任何报错，请自行排查并调整相应的路径。
-
+该仿真视频 [Bilibili 视频链接](https://www.bilibili.com/video/BV1hM4m1D7BM/)。
 ## 编译
 
 ### Catkin Tools 配置
