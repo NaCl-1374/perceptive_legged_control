@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='ASCII'?>
+<sdf version="1.4">
+  <model name="stepping stones Terrain">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <heightmap>
+            <uri>model://stepping_stones_terrain/materials/textures/stepping_stones.png</uri>
+            <size>20.52 20.52 1</size>
+            <pos>0 0 0</pos>
+
+          </heightmap>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <heightmap>
+	<texture>
+            <diffuse>file://media/materials/textures/grass.jpg</diffuse>
+            <normal>file://media/materials/textures/grass_diffusespecular.png</normal>
+            <size>4</size>
+          </texture>
+          <texture>
+            <diffuse>file://media/materials/textures/dirt_diffusespecular.png</diffuse>
+            <normal>file://media/materials/textures/dirt_normal.png</normal>
+            <size>1</size>
+          </texture>
+          <!-- <texture>
+            <diffuse>file://materials/textures/grass_color.jpg</diffuse>
+            <normal>file://materials/textures/grass_normal.jpg</normal>
+            <size>4</size>
+          </texture> -->
+          <!-- Without this unused 3. texture the blend between the first 2 doesn't work -->
+          <texture>
+            <diffuse>file://media/materials/textures/fungus_diffusespecular.png</diffuse>
+            <normal>file://media/materials/textures/flat_normal.png</normal>
+            <size>1</size>
+          </texture>
+          <blend>
+            <min_height>0.01</min_height>
+            <fade_dist>0.02</fade_dist>
+          </blend>
+          <!-- <blend>
+            <min_height>0.30000000000000004</min_height>
+            <fade_dist>0.05</fade_dist>
+          </blend> -->
+          <!-- Without this unused 3. texture the blend between the first 2 doesn't work -->
+          <blend>
+            <min_height>0.02</min_height>
+            <fade_dist>5</fade_dist>
+          </blend>
+            <uri>model://stepping_stones_terrain/materials/textures/stepping_stones.png</uri>
+            <size>20.52 20.52 1</size>
+            <pos>0 0 0</pos>
+
+          </heightmap>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

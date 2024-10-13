@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find freeAny_description)/common/transmission.xacro"/>
+    <!-- lr_val = 1(left)/-1(right) fh_val = 1(front)/-1(hind) -->
+    <xacro:macro name="leg" params="prefix lr_val left_right fh_val front_hind *origin">
+
+        <joint name="${prefix}_HAA" type="revolute">
+            <xacro:insert_block name="origin"/>
+            <parent link="base"/>
+            <child link="${prefix}_HIP"/>
+            <axis xyz="1 0 0"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+            <xacro:if value="${(left_right == True)}">
+                <limit effort="${hip_torque_max}" velocity="${hip_velocity_max}" lower="${hip_min}"
+                       upper="${hip_max}"/>
+            </xacro:if>
+            <xacro:if value="${(left_right == False)}">
+                <limit effort="${hip_torque_max}" velocity="${hip_velocity_max}" lower="${-hip_max}"
+                       upper="${-hip_min}"/>
+            </xacro:if>
+        </joint>
+
+        <link name="${prefix}_HIP">
+            <visual>
+                <xacro:if value="${(left_right == True) and (front_hind == True)}">
+                    <origin rpy="0 0 0" xyz="0 0 0"/>
+                </xacro:if>
+                <xacro:if value="${(left_right == False) and (front_hind == True)}">
+                    <origin rpy="${pi} 0 0" xyz="0 0 0"/>
+                </xacro:if>
+                <xacro:if value="${(left_right == True) and (front_hind == False)}">
+                    <origin rpy="0 ${pi} 0" xyz="0 0 0"/>
+                </xacro:if>
+                <xacro:if value="${(left_right == False) and (front_hind == False)}">
+                    <origin rpy="0 0 ${pi}" xyz="0 0 0"/>
+                </xacro:if>
+                <geometry>
+                    <mesh filename="package://freeAny_description/meshes/HIP.STL" scale="1 1 1"/>
+                </geometry>
+                <material name="grey"/>
+            </visual>
+            <collision>
+                <origin rpy="${pi/2.0} 0 0" xyz="0.0541 0 0"/>
+                <geometry>
+                    <cylinder length="${hip_length}" radius="${hip_radius}"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin rpy="0 0 0" xyz="${fh_val*hip_com_x} ${lr_val*hip_com_y} ${hip_com_z}"/>
+                <mass value="${hip_mass}"/>
+                <inertia
+                    ixx="${hip_ixx}" ixy="${fh_val*hip_ixy*lr_val}" ixz="${fh_val*hip_ixz}"
+                    iyy="${hip_iyy}" iyz="${lr_val*hip_iyz}"
+                    izz="${hip_izz}"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_HIPFix" type="fixed">
+            <origin rpy="0 0 0" xyz="${fh_val*0.08} ${lr_val*0.04} 0"/>
+            <parent link="${prefix}_HIP"/>
+            <child link="${prefix}_HIPFixed"/>
+        </joint>
+
+        <link name="${prefix}_HIPFixed">
+            <!-- <visual>
+                <geometry>
+                    <sphere radius="0.05"/>
+                </geometry>
+                <material name="red"/>
+            </visual> -->
+            <inertial>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <mass value="0.000001"/>
+                <inertia
+                    ixx="0.00000001" ixy="0" ixz="0"
+                    iyy="0.00000001" iyz="0"
+                    izz="0.00000001"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_HFE" type="revolute">
+            <origin rpy="0 0 ${pi/2.0}" xyz="${fh_val*thigh_x_offset} ${lr_val*thigh_y_offset} 0"/>
+            <parent link="${prefix}_HIP"/>
+            <child link="${prefix}_THIGH"/>
+            <axis xyz="1 0 0"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+            <xacro:if value="${(left_right == True)}">
+                <limit effort="${thigh_torque_max}" velocity="${thigh_velocity_max}" lower="${thigh_min}"
+                       upper="${thigh_max}"/>
+            </xacro:if>
+            <xacro:if value="${(left_right == False)}">
+                <limit effort="${hip_torque_max}" velocity="${hip_velocity_max}" lower="${-thigh_max}"
+                       upper="${-thigh_min}"/>
+            </xacro:if>
+        </joint>
+
+        <link name="${prefix}_THIGH">
+            <visual>
+                <xacro:if value="${(left_right == True)}">
+                    <origin rpy="0 0 0" xyz="0 0 0"/>
+                </xacro:if>
+                <xacro:if value="${(left_right == False)}">
+                    <origin rpy="0 0 ${pi}" xyz="0 0 0"/>
+                </xacro:if>
+                <geometry>
+                    <mesh filename="package://freeAny_description/meshes/thigh.STL" scale="1 1 1"/>
+                </geometry>
+                <material name="grey_alpha"/>
+            </visual>
+            <collision>
+                <origin rpy="0 ${pi/2.0} 0" xyz="${-lr_val*0.01} 0 0"/>
+                <geometry>
+                    <cylinder length="${thigh_shoulder_length}" radius="${thigh_shoulder_radius}"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 ${-thigh_length/2.0}"/>
+                <geometry>
+                    <box size="${thigh_height} ${thigh_width} ${thigh_length}"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin rpy="0 0 0" xyz="${lr_val*thigh_com_x} ${lr_val*thigh_com_y} ${thigh_com_z}"/>
+                <mass value="${thigh_mass}"/>
+                <inertia
+                        ixx="${thigh_ixx}" ixy="${thigh_ixy}" ixz="${thigh_ixz*lr_val}"
+                        iyy="${thigh_iyy}" iyz="${thigh_iyz*lr_val}"
+                        izz="${thigh_izz}"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_KFE" type="revolute">
+            <origin rpy="0 0 0" xyz="${lr_val*shank_x_offset} 0 ${-thigh_length}"/>
+            <parent link="${prefix}_THIGH"/>
+            <child link="${prefix}_SHANK"/>
+            <axis xyz="1 0 0"/>
+            <dynamics damping="${damping}" friction="${friction}"/>
+            <limit effort="${shank_torque_max}" velocity="${shank_velocity_max}" lower="${shank_min}" upper="${shank_max}"/>
+        </joint>
+
+        <link name="${prefix}_SHANK">
+            <visual>
+                <xacro:if value="${(left_right == True) and (front_hind == True)}">
+                    <origin rpy="0 0 0" xyz="0 0 0"/>
+                    <geometry>
+                        <mesh filename="package://freeAny_description/meshes/shank_Left.STL" scale="1 1 1"/>
+                    </geometry>
+                </xacro:if>
+                <xacro:if value="${(left_right == False) and (front_hind == False)}">
+                    <origin rpy="0 0 ${pi}" xyz="0 0 0"/>
+                    <geometry>
+                        <mesh filename="package://freeAny_description/meshes/shank_Left.STL" scale="1 1 1"/>
+                    </geometry>
+                </xacro:if>
+                <xacro:if value="${(left_right == False) and (front_hind == True)}">
+                    <origin rpy="0 0 0" xyz="0 0 0"/>
+                    <geometry>
+                        <mesh filename="package://freeAny_description/meshes/shank_Right.STL" scale="1 1 1"/>
+                    </geometry>
+                </xacro:if>
+                <xacro:if value="${(left_right == True) and (front_hind == False)}">
+                    <origin rpy="0 0 ${pi}" xyz="0 0 0"/>
+                    <geometry>
+                        <mesh filename="package://freeAny_description/meshes/shank_Right.STL" scale="1 1 1"/>
+                    </geometry>
+                </xacro:if>
+                <material name="grey"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 ${-fh_val*0.048} 0"/>
+                <geometry>
+                    <box size="${shank_length} ${shank_width} ${shank_height}"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin rpy="0 ${pi/2} 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder length="${shank_thickness}" radius="${shank_radius}"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin rpy="0 0 0" xyz="${lr_val*shank_com_x} ${fh_val*shank_com_y} ${shank_com_z}"/>
+                <mass value="${shank_mass}"/>
+                <inertia
+                        ixx="${shank_ixx}" ixy="${lr_val*fh_val*shank_ixy}" ixz="${lr_val*shank_ixz}"
+                        iyy="${shank_iyy}" iyz="${fh_val*shank_iyz}"
+                        izz="${shank_izz}"/>
+            </inertial>
+        </link>
+
+        <joint name="shank_to_foot_${prefix}" type="fixed">
+            <origin rpy="0 0 ${-pi/2}" xyz="0 ${-(fh_val*0.031301)} -0.24819"/>
+            <parent link="${prefix}_SHANK"/>
+            <child link="${prefix}_FOOT"/>
+        </joint>
+
+        <link name="${prefix}_FOOT">
+            <visual>
+                <xacro:if value="${(front_hind == True)}">
+                    <origin rpy="0 0 0" xyz="0 0 0"/>
+                </xacro:if>
+                <xacro:if value="${(front_hind == False)}">
+                    <origin rpy="0 0 ${pi}" xyz="0 0 0"/>
+                </xacro:if>
+                <geometry>
+                        <mesh filename="package://freeAny_description/meshes/foot.STL" scale="1 1 1"/>
+                </geometry>
+                <material name="grey_alpha"/>
+            </visual>
+            <collision>
+                <origin rpy="0 0 0" xyz="${0.008*fh_val} 0 0.017"/>
+                <geometry>
+                    <sphere radius="${foot_radius}"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin rpy="0 0 0" xyz="${0.016*fh_val} 0 ${foot_length*0.625}"/>
+                <geometry>
+                    <cylinder length="${foot_length}" radius="${foot_radius*0.6}"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin rpy="0 0 0" xyz="${fh_val*foot_com_x} ${foot_com_y} ${foot_com_z}"/>
+                <mass value="${foot_mass}"/>
+                <inertia
+                        ixx="${foot_ixx}" ixy="${fh_val*foot_ixy}" ixz="${fh_val*foot_ixz}"
+                        iyy="${foot_iyy}" iyz="${foot_iyz}"
+                        izz="${foot_izz}"/>
+            </inertial>
+        </link>
+
+        <gazebo reference="shank_to_foot_${prefix}">
+            <disableFixedJointLumping>true</disableFixedJointLumping>
+        </gazebo>
+
+        <xacro:leg_transmission name="${prefix}"/>
+    </xacro:macro>
+</robot>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>plot_terrain</name>
+  <version>0.0.1</version>
+  <description>Your package description</description>
+  <maintainer email="your.email@example.com">Your Name</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- Build dependencies -->
+  <build_depend>convex_plane_decomposition</build_depend>
+  <build_depend>convex_plane_decomposition_msgs</build_depend>
+  <build_depend>convex_plane_decomposition_ros</build_depend>
+  <build_depend>grid_map_filters_rsl</build_depend>
+  <build_depend>grid_map_ros</build_depend>
+  <build_depend>grid_map_sdf</build_depend>
+  <build_depend>ocs2_ros_interfaces</build_depend>
+  <build_depend>ocs2_switched_model_interface</build_depend>
+  <build_depend>segmented_planes_terrain_model</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>visualization_msgs</build_depend>
+  <build_depend>roslib</build_depend>
+  <build_depend>ocs2_robotic_tools</build_depend>
+
+  <!-- Run dependencies -->
+  <exec_depend>convex_plane_decomposition</exec_depend>
+  <exec_depend>convex_plane_decomposition_msgs</exec_depend>
+  <exec_depend>convex_plane_decomposition_ros</exec_depend>
+  <exec_depend>grid_map_filters_rsl</exec_depend>
+  <exec_depend>grid_map_ros</exec_depend>
+  <exec_depend>grid_map_sdf</exec_depend>
+  <exec_depend>ocs2_ros_interfaces</exec_depend>
+  <exec_depend>ocs2_switched_model_interface</exec_depend>
+  <exec_depend>segmented_planes_terrain_model</exec_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>roslib</exec_depend>
+  <exec_depend>ocs2_robotic_tools</exec_depend>
+
+</package>

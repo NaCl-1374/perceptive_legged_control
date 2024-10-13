@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
+
+    <xacro:arg name="robot_type" default="freeAny"/>
+    <!-- <xacro:arg name="camera_visual" default="false"/> -->
+
+    <xacro:include filename="$(find freeAny_description)/common/materials.xacro"/>
+    <xacro:include filename="$(find freeAny_description)/common/leg.xacro"/>
+    <xacro:include filename="$(find freeAny_description)/common/gazebo.xacro"/>
+    <xacro:include filename="$(find freeAny_description)/common/imu.xacro"/>
+    <xacro:include filename="$(find freeAny_description)/common/BP_lidar.xacro"/>
+    <xacro:include filename="$(find freeAny_description)/common/camera.xacro"/>
+
+    <xacro:include filename="$(find freeAny_description)/urdf/const.xacro"/>
+
+
+    <link name="base">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://freeAny_description/meshes/base.STL" scale="1 1 1"/>
+            </geometry>
+            <material name = "orange" />
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <box size="${trunk_length} ${trunk_width} ${trunk_height}"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="${trunk_com_x} ${trunk_com_y} ${trunk_com_z}"/>
+            <mass value="${trunk_mass}"/>
+            <inertia
+                    ixx="${trunk_ixx}" ixy="${trunk_ixy}" ixz="${trunk_ixz}"
+                    iyy="${trunk_iyy}" iyz="${trunk_iyz}"
+                    izz="${trunk_izz}"/>
+        </inertial>
+    </link>
+
+    <joint
+        name="base_to_battery"
+        type="fixed">
+        <origin xyz="-0.0945 0 -0.006" rpy="0 0 0" />
+        <parent link="base" />
+        <child link="battery" />
+        <axis xyz="0 0 0" />
+    </joint>
+    <gazebo reference="base_to_battery">
+            <disableFixedJointLumping>true</disableFixedJointLumping>
+    </gazebo>
+    <link name="battery">
+        <inertial>
+        <origin xyz="0 4.0915E-05 3.0102E-05" rpy="0 0 0" />
+        <mass value="1.47" />
+        <inertia
+            ixx="0.004712212" ixy="-1.6E-08" ixz="-8.0E-09"
+            iyy="0.001037398" iyz="3.622E-06"
+            izz="0.004615705" />
+        </inertial>
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+            <mesh
+            filename="package://freeAny_description/meshes/battery.STL" />
+        </geometry>
+        <material name="orange"/>
+        </visual>
+    </link>
+    
+    <xacro:IMU connected_to="base" imu_name="yesense_imu" xyz="0.12095 0 -0.0335" rpy="0. 0. 0."/>
+    <xacro:LiDAR connected_to="base" lidar_name="BP_lidar" xyz="0.38227 0 0" rpy="-1.5708 1.0472 -1.5708"/>
+    <xacro:Camera connected_to="base" camera_name="realsense_camera" xyz="0.4 0 0.15" rpy="0 0.6 0"/>
+    
+    <gazebo reference="camera_rgb_frame">
+            <sensor type="depth" name="realsense_R200">
+            <always_on>true</always_on>
+            <visualize>false</visualize>
+            <camera>
+                <horizontal_fov>1.3439</horizontal_fov>
+                <image>
+                    <width>1920</width>
+                    <height>1080</height>
+                    <format>R8G8B8</format>
+                </image>
+                <depth_camera></depth_camera>
+                <clip>
+                    <near>0.03</near>
+                    <far>100</far>
+                </clip>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+                <baseline>0.2</baseline>
+                <alwaysOn>true</alwaysOn>
+                <updateRate>30.0</updateRate>
+                <cameraName>camera</cameraName>
+                <frameName>camera_rgb_optical_frame</frameName>
+                <imageTopicName>rgb/image_raw</imageTopicName>
+                <depthImageTopicName>depth/image_raw</depthImageTopicName>
+                <pointCloudTopicName>depth/points</pointCloudTopicName>
+                <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+                <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+                <pointCloudCutoff>0.4</pointCloudCutoff>
+                    <hackBaseline>0.07</hackBaseline>
+                    <distortionK1>0.0</distortionK1>
+                    <distortionK2>0.0</distortionK2>
+                    <distortionK3>0.0</distortionK3>
+                    <distortionT1>0.0</distortionT1>
+                    <distortionT2>0.0</distortionT2>
+                <CxPrime>0.0</CxPrime>
+                <Cx>0.0</Cx>
+                <Cy>0.0</Cy>
+                <focalLength>0</focalLength>
+                <hackBaseline>0</hackBaseline>
+            </plugin>
+            </sensor>
+        </gazebo>
+
+    <!-- lr_val = 1(left)/-1(right) fh_val = 1(front)/-1(hind) -->
+    <!-- <xacro:macro name="leg" params="prefix lr_val left_right fh_val front_hind *origin"> -->
+
+    <xacro:leg prefix="LF" lr_val="1" left_right="True" fh_val="1" front_hind="True">
+        <origin rpy="0 0 0" xyz="${leg_offset_x} ${leg_offset_y} 0"/>
+    </xacro:leg>
+
+    <xacro:leg prefix="RF" lr_val="-1" left_right="False" fh_val="1" front_hind="True">
+        <origin rpy="0 0 0" xyz="${leg_offset_x} ${-leg_offset_y} 0"/>
+    </xacro:leg>
+
+    <xacro:leg prefix="LH" lr_val="1" left_right="True" fh_val="-1" front_hind="False">
+        <origin rpy="0 0 0" xyz="${-leg_offset_x} ${leg_offset_y} 0"/>
+    </xacro:leg>
+
+    <xacro:leg prefix="RH" lr_val="-1" left_right="False" fh_val="-1" front_hind="False">
+        <origin rpy="0 0 0" xyz="${-leg_offset_x} ${-leg_offset_y} 0"/>
+    </xacro:leg>
+
+</robot>

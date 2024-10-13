@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="freeAny">
+  <link
+    name="base">
+    <inertial>
+      <origin
+        xyz="0.0036585 -0.00075969 -0.0077332"
+        rpy="0 0 0" />
+      <mass
+        value="4.71" />
+      <inertia
+        ixx="0.02327755"
+        ixy="0.000033511"
+        ixz="0.000186233"
+        iyy="0.126017746"
+        iyz="-0.000014056"
+        izz="0.133811568" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.6 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/base.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="battery">
+    <inertial>
+      <origin
+        xyz="0 4.0915E-05 3.0102E-05"
+        rpy="0 0 0" />
+      <mass
+        value="1.47" />
+      <inertia
+        ixx="0.004712212"
+        ixy="-1.6E-08"
+        ixz="-8.0E-09"
+        iyy="0.001037398"
+        iyz="3.622E-06"
+        izz="0.004615705" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/battery.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/battery.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_to_battery"
+    type="fixed">
+    <origin
+      xyz="-0.0945 0 -0.006"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="battery" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="IMU">
+    <inertial>
+      <origin
+        xyz="0.00027332 0 -0.0072335"
+        rpy="0 0 0" />
+      <mass
+        value="0.03" />
+        <inertia
+          ixx="4.013E-06"
+          ixy="0"
+          ixz="-1.5E-08"
+          iyy="6.158E-06"
+          iyz="-2.0E-09"
+          izz="6.061E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/IMU.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/IMU.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_to_IMU"
+    type="fixed">
+    <origin
+      xyz="0.12095 0 -0.0335"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="IMU" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="BP_lidar">
+    <inertial>
+      <origin
+        xyz="-0.00092658 3.0E-05 -0.058804"
+        rpy="0 0 0" />
+      <mass
+        value="1.0" />
+      <inertia
+        ixx="0.005077876"
+        ixy="1.493E-06"
+        ixz="7.8943E-05"
+        iyy="0.005133860"
+        iyz="-2.922E-06"
+        izz="0.001777821" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/BP_lidar.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/BP_lidar.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_to_BP_lidar"
+    type="fixed">
+    <origin
+      xyz="0.38227 0 0"
+      rpy="-1.5708 1.0472 -1.5708" />
+    <parent
+      link="base" />
+    <child
+      link="BP_lidar" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="HAA_LF">
+    <inertial>
+      <origin
+        xyz="0.042659 0.0034843 -0.00035303"
+        rpy="0 0 0" />
+      <mass
+        value="0.715" />
+      <inertia
+        ixx="0.000546211"
+        ixy="0.000114344"
+        ixz="-1.0737E-05"
+        iyy="0.002324487"
+        iyz="3.2554E-05"
+        izz="0.002086762" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/HAA.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/HAA.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_to_HAA_LF"
+    type="revolute">
+    <origin
+      xyz="0.1756 0.055 0"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="HAA_LF" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="33"
+      velocity="21" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="thigh_LF">
+    <inertial>
+      <origin
+        xyz="-0.0189705375371325 -0.000100074218264051 -0.072708434237058"
+        rpy="0 0 0" />
+      <mass
+        value="1.15" />
+      <inertia
+        ixx="0.014724523"
+        ixy="5.677E-06"
+        ixz="6.2711E-05"
+        iyy="0.015466921"
+        iyz="7.296E-06"
+        izz="0.001822592" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/thigh.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/thigh.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="HAA_to_thigh_LF"
+    type="revolute">
+    <origin
+      xyz="0.0541 0.09355 0"
+      rpy="0 0 1.5708" />
+    <parent
+      link="HAA_LF" />
+    <child
+      link="thigh_LF" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="33"
+      velocity="21" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link
+    name="shank_LF">
+    <inertial>
+      <origin
+        xyz="-0.000781225496575888 -0.0294992378442806 -0.00454152532339466"
+        rpy="0 0 0" />
+      <mass
+        value="0.085" />
+      <inertia
+        ixx="0.000156178"
+        ixy="0"
+        ixz="0"
+        iyy="3.8653E-05"
+        iyz="1.8611E-05"
+        izz="0.000133207" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/shank_Left.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/shank_Left.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="knee_LF"
+    type="revolute">
+    <origin
+      xyz="0.034 0 -0.2"
+      rpy="0 0 0" />
+    <parent
+      link="thigh_LF" />
+    <child
+      link="shank_LF" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-5"
+      upper="5"
+      effort="52"
+      velocity="13" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link
+    name="foot_LF">
+    <inertial>
+      <origin
+        xyz="0.012 0 0.065"
+        rpy="0 0 0" />
+      <mass
+        value="0.077" />
+      <inertia
+        ixx="0.00629115"
+        ixy="0"
+        ixz="7.2557E-05"
+        iyy="0.000641223"
+        iyz="0"
+        izz="2.3963E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/foot.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/foot.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="shank_to_foot_LF"
+    type="fixed">
+    <origin
+      xyz="0 -0.031301 -0.24819"
+      rpy="0 0 -1.5708" />
+    <parent
+      link="shank_LF" />
+    <child
+      link="foot_LF" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="HAA_RF">
+    <inertial>
+      <origin
+        xyz="0.042659 -0.0034068 0.00081132"
+        rpy="0 0 0" />
+      <mass
+        value="0.715" />
+      <inertia
+        ixx="0.000546211"
+        ixy="-0.000112737"
+        ixz="-2.1910E-05"
+        iyy="0.002323220"
+        iyz="-3.687E-05"
+        izz="0.002088029" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="3.1415926 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/HAA.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="3.1415926 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/HAA.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_to_HAA_RF"
+    type="revolute">
+    <origin
+      xyz="0.1756 -0.055 0"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="HAA_RF" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="33"
+      velocity="21" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link
+    name="thigh_RF">
+    <inertial>
+      <origin
+        xyz="0.0189705413173276 0.000100069718065726 -0.0727084333709927"
+        rpy="0 0 0" />
+      <mass
+        value="1.15" />
+      <inertia
+        ixx="0.014724523"
+        ixy="5.677E-06"
+        ixz="-6.2711E-05"
+        iyy="0.015466921"
+        iyz="-7.296E-06"
+        izz="0.001822592" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/thigh.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/thigh.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="HAA_to_thigh_RF"
+    type="revolute">
+    <origin
+      xyz="0.0541 -0.09355 0"
+      rpy="0 0 1.5708" />
+    <parent
+      link="HAA_RF" />
+    <child
+      link="thigh_RF" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="33"
+      velocity="21" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link
+    name="shank_RF">
+    <inertial>
+      <origin
+        xyz="0.000781225557017318 -0.0294992381685193 -0.00454152518167399"
+        rpy="0 0 0" />
+      <mass
+        value="0.085" />
+      <inertia
+        ixx="0.000156178"
+        ixy="0"
+        ixz="0"
+        iyy="3.8653E-05"
+        iyz="1.8611E-05"
+        izz="0.000133207" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/shank_Right.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/shank_Right.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="knee_RF"
+    type="revolute">
+    <origin
+      xyz="-0.034 0 -0.2"
+      rpy="0 0 0" />
+    <parent
+      link="thigh_RF" />
+    <child
+      link="shank_RF" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-5"
+      upper="5"
+      effort="52"
+      velocity="13" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link
+    name="foot_RF">
+    <inertial>
+      <origin
+        xyz="0.012 0 0.065"
+        rpy="0 0 0" />
+      <mass
+        value="0.077" />
+      <inertia
+        ixx="0.00629115"
+        ixy="0"
+        ixz="7.2557E-05"
+        iyy="0.000641223"
+        iyz="0"
+        izz="2.3963E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/foot.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/foot.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="shank_to_foot_RF"
+    type="fixed">
+    <origin
+      xyz="0 -0.031301 -0.24819"
+      rpy="0 0 -1.5708" />
+    <parent
+      link="shank_RF" />
+    <child
+      link="foot_RF" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="HAA_LH">
+    <inertial>
+      <origin
+        xyz="-0.0426589009356411 0.00336104614069828 -0.00098404465852114"
+        rpy="0 0 0" />
+      <mass
+        value="0.715" />
+        <inertia
+          ixx="0.000546211"
+          ixy="-0.000109978"
+          ixz="3.3083E-05"
+          iyy="0.002313521"
+          iyz="5.9552E-05"
+          izz="0.002097728" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 3.1415926 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/HAA.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 3.1415926 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/HAA.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_to_HAA_LH"
+    type="revolute">
+    <origin
+      xyz="-0.1756 0.055 0"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="HAA_LH" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="33"
+      velocity="21" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link
+    name="thigh_LH">
+    <inertial>
+      <origin
+        xyz="-0.018970527572257 -0.000100071540005076 -0.0727084007452807"
+        rpy="0 0 0" />
+      <mass
+        value="1.15" />
+      <inertia
+        ixx="0.014724523"
+        ixy="5.677E-06"
+        ixz="6.2711E-05"
+        iyy="0.015466921"
+        iyz="7.296E-06"
+        izz="0.001822592" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/thigh.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/thigh.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="HAA_to_thigh_LH"
+    type="revolute">
+    <origin
+      xyz="-0.0541 0.09355 0"
+      rpy="0 0 1.5708" />
+    <parent
+      link="HAA_LH" />
+    <child
+      link="thigh_LH" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="33"
+      velocity="21" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link
+    name="shank_LH">
+    <inertial>
+      <origin
+        xyz="-0.000781225661406718 0.0294992382419825 -0.00454152509121089"
+        rpy="0 0 0" />
+      <mass
+        value="0.085" />
+        <inertia
+          ixx="0.000156178"
+          ixy="0"
+          ixz="0"
+          iyy="3.8653E-05"
+          iyz="-1.8611E-05"
+          izz="0.000133207" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/shank_Right.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/shank_Right.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="knee_LH"
+    type="revolute">
+    <origin
+      xyz="0.034 0 -0.2"
+      rpy="0 0 0" />
+    <parent
+      link="thigh_LH" />
+    <child
+      link="shank_LH" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-5"
+      upper="5"
+      effort="52"
+      velocity="13" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link
+    name="foot_LH">
+    <inertial>
+      <origin
+        xyz="-0.012 0 0.065"
+        rpy="0 0 0" />
+      <mass
+        value="0.077" />
+      <inertia
+        ixx="0.00629115"
+        ixy="0"
+        ixz="-7.2557E-05"
+        iyy="0.000641223"
+        iyz="0"
+        izz="2.3963E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/foot.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/foot.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="shank_to_foot_LH"
+    type="fixed">
+    <origin
+      xyz="0 0.031301 -0.24819"
+      rpy="0 0 -1.5708" />
+    <parent
+      link="shank_LH" />
+    <child
+      link="foot_LH" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="HAA_RH">
+    <inertial>
+      <origin
+        xyz="-0.0426589598828938 -0.00349947540224291 -0.000136472518079925"
+        rpy="0 0 0" />
+      <mass
+        value="0.715" />
+      <inertia
+        ixx="0.000546211"
+        ixy="0.000114149"
+        ixz="1.2634E-05"
+        iyy="0.002323341"
+        iyz="-3.6484E-05"
+        izz="0.002087909" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/HAA.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/HAA.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_to_HAA_RH"
+    type="revolute">
+    <origin
+      xyz="-0.1756 -0.055 0"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="HAA_RH" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="33"
+      velocity="21" />
+    <dynamics  damping="0" friction="0" />
+  </joint>
+  <link
+    name="thigh_RH">
+    <inertial>
+      <origin
+        xyz="0.0189705315627431 0.00010007501689871 -0.0727083931947322"
+        rpy="0 0 0" />
+      <mass
+        value="1.15" />
+        <inertia
+          ixx="0.014724523"
+          ixy="5.677E-06"
+          ixz="-6.2711E-05"
+          iyy="0.015466921"
+          iyz="-7.296E-06"
+          izz="0.001822592" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/thigh.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/thigh.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="HAA_to_thigh_RH"
+    type="revolute">
+    <origin
+      xyz="-0.0541 -0.09355 0"
+      rpy="0 0 1.5708" />
+    <parent
+      link="HAA_RH" />
+    <child
+      link="thigh_RH" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-3"
+      upper="3"
+      effort="33"
+      velocity="21" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link
+    name="shank_RH">
+    <inertial>
+      <origin
+        xyz="0.000781225298595478 0.0294992377560534 -0.00454152525288773"
+        rpy="0 0 0" />
+      <mass
+        value="0.085" />
+        <inertia
+          ixx="0.000156178"
+          ixy="0"
+          ixz="0"
+          iyy="3.8653E-05"
+          iyz="-1.8611E-05"
+          izz="0.000133207" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/shank_Left.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/shank_Left.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="knee_RH"
+    type="revolute">
+    <origin
+      xyz="-0.034 0 -0.2"
+      rpy="0 0 0" />
+    <parent
+      link="thigh_RH" />
+    <child
+      link="shank_RH" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-5"
+      upper="5"
+      effort="52"
+      velocity="13" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link
+    name="foot_RH">
+    <inertial>
+      <origin
+        xyz="-0.012 0 0.065"
+        rpy="0 0 0" />
+      <mass
+        value="0.077" />
+      <inertia
+        ixx="0.00629115"
+        ixy="0"
+        ixz="-7.2557E-05"
+        iyy="0.000641223"
+        iyz="0"
+        izz="2.3963E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/foot.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 3.1415926" />
+      <geometry>
+        <mesh
+          filename="package://freeAny/meshes/foot.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="shank_to_foot_RH"
+    type="fixed">
+    <origin
+      xyz="0 0.031301 -0.24819"
+      rpy="0 0 -1.5708" />
+    <parent
+      link="shank_RH" />
+    <child
+      link="foot_RH" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>

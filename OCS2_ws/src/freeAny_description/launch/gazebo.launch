@@ -1,0 +1,29 @@
+<launch>
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <arg name="rviz_config" default="$(find freeAny_description)/freeany.rviz" />
+  <arg name="world_name" value="$(find freeAny_description)/launch/test2.world"/>
+  <arg name="gui" default="true" />
+
+  <rosparam file="$(find freeAny_description)/config/default.yaml" command="load"/>
+  <!-- <rosparam file="$(find legged_gazebo)/config/default.yaml" command="load"/> -->
+
+  <param name="legged_robot_description" command="$(find xacro)/xacro $(find freeAny_description)/urdf/robot.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro $(find freeAny_description)/urdf/robot.xacro" />
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name = "world_name"  value = "$(arg world_name)"/>
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="physics" value="ode" />
+    <arg name="verbose" value="$(arg gui)" />
+  </include>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="freeany_state_publisher"/>
+
+  <node name="spawn_quadruped_model" pkg="gazebo_ros" type="spawn_model" args="-z 0.5 -param legged_robot_description -urdf -model freeAny" output="screen" />
+
+  <!-- <node name="fake_joint_calibration" pkg="rostopic" type="rostopic" args="pub /calibrated std_msgs/Bool true" /> -->
+
+  <!-- Launch RViz with the demo configuration. -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config)"/>
+
+</launch>

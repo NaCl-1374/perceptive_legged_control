@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="laser_ldiar">
+    <xacro:macro name="LiDAR" params="connected_to lidar_name xyz:='0 0 0' rpy:='0 0 0' ">
+        <!-- lidar is fixed to the base link -->
+        <joint name="base_to_${lidar_name}_joint" type="fixed">
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <parent link="${connected_to}"/>
+            <child link="${lidar_name}"/>
+        </joint>
+        <!-- lidar link -->
+        <link name="${lidar_name}">
+            <inertial>
+                <mass value="1.0"/>
+                <origin xyz="-0.00092658 3.0E-05 -0.058804" rpy="0 0 0" />
+                <inertia ixx="0.005077876" ixy="1.493E-06" ixz="7.8943E-05" iyy="0.005133860" iyz="-2.922E-06" izz="0.001777821" /> 
+            </inertial>
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://freeAny_description/meshes/BP_lidar.STL" />
+                </geometry>
+                <material name = "silver" />
+            </visual>
+            <!-- <collision> 
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <cylinder length="0.06" radius="0.045"/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                    <sphere radius="0.043"/>
+                </geometry>
+            </collision> -->
+        </link>
+
+        
+
+        <gazebo reference="base_to_${lidar_name}_joint">
+            <disableFixedJointLumping>true</disableFixedJointLumping>
+        </gazebo>
+    </xacro:macro>
+</robot>

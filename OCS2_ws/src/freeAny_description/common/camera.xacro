@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="camera_freeany">
+    <xacro:macro name="Camera" params="connected_to camera_name xyz:='0 0 0' rpy:='0 0 0' ">
+        <!-- lidar is fixed to the base link --> 
+    
+        <joint name="base_to_${camera_name}_joint" type="fixed">
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <parent link="${connected_to}"/>
+            <child link="${camera_name}"/>
+        </joint>
+        <!-- lidar link -->
+        <link name="${camera_name}">
+            <inertial>
+                <mass value="0.01"/>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <inertia ixx="0.0000001" ixy="0" ixz="0" iyy="0.0000001" iyz="0" izz="0.0000001" /> 
+            </inertial>
+            <!-- <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                <mesh filename="package://turtlebot3_description/meshes/sensors/r200.dae" />
+                </geometry>
+                <material name = "silver" />
+            </visual> -->
+            <!-- <collision>
+                <origin xyz="0.003 0.065 0.007" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.012 0.132 0.020"/>
+                </geometry>
+            </collision> -->
+    
+        </link>
+
+         <joint name="camera_rgb_joint" type="fixed">
+            <origin xyz="0.005 0.018 0.013" rpy="0 0 0"/>
+            <parent link="${camera_name}"/>
+            <child link="camera_rgb_frame"/>
+        </joint>
+
+        <link name="camera_rgb_frame">
+            <inertial>
+                <mass value="0.01"/>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <inertia ixx="0.0000001" ixy="0" ixz="0" iyy="0.0000001" iyz="0" izz="0.0000001" /> 
+            </inertial>
+        </link>
+
+        <joint name="camera_rgb_optical_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+            <parent link="camera_rgb_frame"/>
+            <child link="camera_rgb_optical_frame"/>
+        </joint>
+        <link name="camera_rgb_optical_frame"/>
+
+        <joint name="camera_depth_joint" type="fixed">
+            <origin xyz="0.005 0.028 0.013" rpy="0 0 0"/>
+            <parent link="${camera_name}"/>
+            <child link="camera_depth_frame"/>
+        </joint>
+        <link name="camera_depth_frame"/>
+
+        <joint name="camera_depth_optical_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+            <parent link="camera_depth_frame"/>
+            <child link="camera_depth_optical_frame"/>
+        </joint>
+        <link name="camera_depth_optical_frame"/>
+
+        <gazebo reference="base_to_${camera_name}_joint">
+            <disableFixedJointLumping>true</disableFixedJointLumping>
+        </gazebo>
+
+
+    </xacro:macro>
+</robot>
