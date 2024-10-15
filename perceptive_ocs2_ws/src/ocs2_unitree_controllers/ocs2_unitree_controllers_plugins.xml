@@ -1,0 +1,14 @@
+<library path="lib/libocs2_unitree_controllers">
+
+    <class name="legged/PerceptiveLeggedController" type="legged::PerceptiveLeggedController" base_class_type="controller_interface::ControllerBase">
+        <description>
+            The basic legged controller.
+        </description>
+    </class>
+
+        <class name="legged/PerceptiveLeggedCheaterController" type="legged::PerceptiveLeggedCheaterController" base_class_type="controller_interface::ControllerBase">
+        <description>
+            The cheater legged controller.
+        </description>
+    </class>
+</library>

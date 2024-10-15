@@ -1,0 +1,23 @@
+<launch>
+  <!-- "$(env ROBOT_TYPE)" -->
+  <arg name="robot_type" default="aliengo" doc="Robot type: [a1, aliengo, go1, laikago]"/>
+  <arg name="gui" default="true" />
+
+  <param name="legged_robot_description" command="$(find xacro)/xacro $(find legged_perceptive_description_custom)/urdf/robot.xacro robot_type:=$(arg robot_type) sim:=true
+    "/>
+  <node name="generate_urdf" pkg="legged_common" type="generate_urdf.sh" output="screen" args="$(find legged_perceptive_description_custom)/urdf/robot.xacro $(arg robot_type)"/>
+
+<!-- step_stone  empty_world-->
+  <rosparam file="$(find legged_gazebo)/config/default.yaml" command="load"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find legged_gazebo)/worlds/step_stone.world"/>
+    <arg name="gui" value="$(arg gui)" />
+    <!-- <arg name="physics" value="ode" /> -->
+    <arg name="verbose" value="$(arg gui)" />
+  </include>
+
+  <!-- push robot_description to factory and spawn robot in gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" clear_params="true" args="-x -4 -z 1.4 -Y 0 -param legged_robot_description -urdf -model $(arg robot_type)" output="screen"/>
+
+
+</launch>

@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+
+<launch>
+<!-- $(env ROBOT_TYPE) -->
+    <arg name="robot_type" default="aliengo" doc="Robot type: [a1, aliengo, go1, laikago]"/>
+
+    <param name="urdfFile" value="/tmp/legged_control/$(arg robot_type).urdf"/>
+    <param name="taskFile" value="$(find legged_perceptive_controllers)/config/$(arg robot_type)/task.info"/>
+    <param name="referenceFile" value="$(find legged_controllers)/config/$(arg robot_type)/reference.info"/>
+    <param name="gaitCommandFile" value="$(find legged_controllers)/config/$(arg robot_type)/gait.info"/>
+
+    <rosparam file="$(find legged_perceptive_controllers)/config/default.yaml" command="load"/>
+
+    <node name="controller_loader" pkg="controller_manager" type="controller_manager"
+          output="screen" args="spawn
+          controllers/perceptive_controller
+          controllers/joint_state_controller
+
+"/>
+
+    <node pkg="ocs2_legged_robot_ros" type="legged_robot_gait_command" name="legged_robot_gait_command"
+          output="screen"/>
+
+    <node pkg="legged_controllers" type="legged_target_trajectories_publisher" name="legged_robot_target"
+          output="screen"/>
+
+    <node name="rqt_controller_manager" pkg="rqt_controller_manager" type="rqt_controller_manager" respawn="false" output="screen" />
+
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find legged_perceptive_controllers)/config/rviz.rviz"/>
+
+    <!-- <include file="$(find legged_perceptive_controllers)/launch/elevation_mapping_custom.launch">
+    </include> -->
+
+<!-- 简化建图用 -->
+
+      <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="odom_tf_publisher" args="0 0 0 0 0 0  map odom"/> -->
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="odom2world" args="0 0 0 0 0 0  odom world "/> -->
+
+
+</launch>

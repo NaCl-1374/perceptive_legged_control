@@ -1,0 +1,59 @@
+<launch>
+  <arg name="robot_name" default="aliengol" />
+  <arg name="config_name" default="unitree" />
+  <arg name="rviz" default="true" />
+  <arg name="performance_indices" default="true" />
+  <arg name="description_name" default="ocs2_unitree_description"/>
+  <arg name="target_command" default="$(find ocs2_unitree_mpc)/config/$(arg config_name)/targetCommand.info"/>
+
+
+  <param name="descriptionName" value="/$(arg description_name)"/>
+  <param name="configName" value="$(arg config_name)"/>
+  <param name="robotName" value="$(arg robot_name)"/>
+
+  <param name="verbose" value="true"/>
+  <!-- Load robot description -->
+  <arg name="robot_type" default="aliengo" doc="Robot type: [a1, aliengo, go1, laikago]"/>
+  <param name="$(arg description_name)" command="$(find xacro)/xacro $(find legged_perceptive_description_custom)/urdf/robot.xacro robot_type:=$(arg robot_type) sim:=true
+    "/>
+  <param name="ocs2_anymal_description" command="$(find xacro)/xacro $(find legged_perceptive_description_custom)/urdf/robot.xacro robot_type:=$(arg robot_type) sim:=true
+    "/>
+
+
+  <rosparam file="$(find ocs2_unitree_controllers)/config/controllers.yaml" command="load"/>
+
+  <node name="controller_loader" pkg="controller_manager" type="controller_manager" output="screen" args="load
+          controllers/legged_Perceptive_controller
+          controllers/joint_state_controller
+          controllers/legged_Cheater_Perceptive_controller
+          "/>
+
+  <node name="rqt_controller_manager" pkg="rqt_controller_manager" type="rqt_controller_manager" respawn="false" output="screen" />
+
+  <group if="$(arg rviz)">
+    <!-- Launch visualization -->
+    <node name="rviz_ocs2" pkg="rviz" type="rviz" args="-d $(find ocs2_unitree_loopshaping_mpc)/config/$(arg config_name)/demo_config.rviz">
+    </node>
+  </group>
+
+<!-- 不开终端显示 -->
+  <node pkg="ocs2_anymal_commands" type="gait_command_node" name="gait_command_node" 
+  output="screen" args="$(arg robot_name)" />
+<!-- 另外开终端显示 -->
+  <node pkg="ocs2_anymal_commands" type="target_command_node" name="target_command_node"
+        output="screen" args="$(arg target_command) $(arg robot_name)" launch-prefix="gnome-terminal --"/>
+<!-- 质心轨迹生成 -->
+  <node pkg="perceptive_trajectories" type="perceptive_trajectories_publisher" name="perceptive_trajectories_publisher" 
+  output="screen" args="$(arg target_command) $(arg robot_name)" />
+
+  <!-- Launch Performance Indices Multi-plot -->
+  <!-- <include if="$(arg performance_indices)" file="$(find ocs2_ros_interfaces)/launch/performance_indices.launch">
+    <arg name="mpc_policy_topic_name" value="$(arg robot_name)_mpc_policy"/>
+  </include> -->
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_tf_publisher"
+          args="0 0 0 0 0 0 1 map odom"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="world2map"
+          args="0 0 0 0 0 0 1 world map"/>
+
+</launch>

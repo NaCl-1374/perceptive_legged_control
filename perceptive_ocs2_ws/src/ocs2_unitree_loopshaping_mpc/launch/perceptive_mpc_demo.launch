@@ -1,0 +1,39 @@
+<launch>
+    <arg name="robot_name"                          default="anymal_c" />
+    <arg name="config_name"                         default="unitree" />
+    <arg name="description_name"                    default="ocs2_unitree_description"/>
+    <arg name="perception_parameter_file"           default="$(find convex_plane_decomposition_ros)/config/parameters.yaml" />
+
+    <param name="config_name"                       value="$(arg config_name)"/>
+
+    <param name="forward_velocity"                  value="0.3"/>
+    <param name="forward_distance"                  value="6"/>
+
+    <param name="terrain_name"                      value="stepping_stones.png"/>
+    <param name="terrain_scale"                     value="0.55"/>
+    <param name="adaptReferenceToTerrain"           value="true"/>
+
+    <arg name="robot_type" default="aliengo" doc="Robot type: [a1, aliengo, go1, laikago]"/>
+
+    <!-- Load robot description -->
+    <!-- <include file="$(find ocs2_anymal_models)/launch/load_urdf.launch">
+        <arg name="robot_name"                      value="$(arg robot_name)"/>
+        <arg name="description_name"                value="$(arg description_name)"/>
+    </include> -->
+
+   <param name="$(arg description_name)" command="$(find xacro)/xacro $(find legged_perceptive_description_custom)/urdf/robot.xacro
+        robot_type:=$(arg robot_type) sim:=true
+    "/>
+  <param name="ocs2_anymal_description" command="$(find xacro)/xacro $(find legged_perceptive_description_custom)/urdf/robot.xacro
+        robot_type:=$(arg robot_type) sim:=true
+    "/>
+    <!-- Launch rviz with specific configuration -->
+    <node name="rviz_ocs2" pkg="rviz" type="rviz"  args="-d $(find ocs2_unitree_loopshaping_mpc)/config/rviz/demo_config.rviz">
+    </node>
+
+    <!-- Launch node -->
+    <node pkg="ocs2_unitree_loopshaping_mpc" type="ocs2_unitree_loopshaping_mpc_perceptive_demo" name="ocs2_unitree_loopshaping_mpc_perceptive_demo"
+            output="screen" args="" launch-prefix="">
+           <rosparam file="$(arg perception_parameter_file)" command="load"/>
+    </node>
+</launch>

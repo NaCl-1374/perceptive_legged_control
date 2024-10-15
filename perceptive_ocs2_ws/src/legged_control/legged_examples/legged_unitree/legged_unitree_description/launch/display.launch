@@ -1,0 +1,10 @@
+<launch>
+  <arg name="model" />
+  <arg name="robot_type" default='aliengo' doc="Robot type: [a1, aliengo, go1, laikago]"/>
+
+  <!-- <param name="robot_description" textfile="$(find xacro)/xacro $(find legged_unitree_description)/urdf/robot.xacro" /> -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find legged_unitree_description)/urdf/robot.xacro robot_type:=$(arg robot_type)" />
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find legged_unitree_description)/urdf.rviz" /> -->
+</launch>

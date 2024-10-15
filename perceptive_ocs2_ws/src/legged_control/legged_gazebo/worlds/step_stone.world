@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='ASCII'?>
+<sdf version="1.4">
+  <world name="stepping_ stones terrain World">
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>3.19607 1.43004 2.41466 0 0.523457 -2.63099</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+		<physics type="ode">
+		    <type>world</type>
+		    <max_step_size>0.001</max_step_size>
+		    <real_time_update_rate>1000</real_time_update_rate>
+		    <iters>1000</iters>
+		 </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+      <sky>
+        <clouds>
+          <speed>12</speed>
+        </clouds>
+        <time>12:00</time>
+      </sky>
+    </scene>
+    <include>
+      <uri>model://stepping_stones_terrain</uri>
+    </include>
+    <include>
+      <uri>model://sun</uri>
+    </include>
+  </world>
+</sdf>
