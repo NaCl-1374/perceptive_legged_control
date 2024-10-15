@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+    <name>legged_perceptive_interface</name>
+    <version>0.0.0</version>
+    <description>legged_perceptive_interface</description>
+    <maintainer email="liaoqiayuan@gmail.com">Qiayuan Liao</maintainer>
+
+    <license>BSD</license>
+    <author email="liaoqiayuan@gmail.com">Qiayuan Liao</author>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <build_depend>cmake_clang_tools</build_depend>
+    <depend>roscpp</depend>
+    <depend>legged_interface</depend>
+    <depend>convex_plane_decomposition_msgs</depend>
+    <depend>convex_plane_decomposition_ros</depend>
+    <depend>grid_map_sdf</depend>
+    <depend>ocs2_sphere_approximation</depend>
+
+    <depend>pinocchio</depend>
+</package>

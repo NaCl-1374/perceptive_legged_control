@@ -1,0 +1,116 @@
+camera_front_filter:
+  cloud_filter_chain:
+    # - name: camera_filter
+    #   type: robot_body_filter/RobotBodyFilterPointCloud2
+    #   params:
+    #     sensor/min_distance: 0.4
+    #     frames/fixed: odom
+    #     frames/sensor: front_camera_depth_optical_frame
+    #     frames/output: front_camera_depth_optical_frame
+    #     body_model/inflation/padding: 0.0005
+    #     body_model/robot_description_param: legged_robot_description
+    #     debug/marker/shadow: true
+    #     debug/marker/contains: true
+    #     only_links:
+    #       - front_camera_depth_optical_frame
+    - name: body_filter
+      type: robot_body_filter/RobotBodyFilterPointCloud2
+      params:
+        frames/fixed: odom
+        frames/sensor: front_camera_depth_optical_frame
+        frames/output: front_camera_depth_optical_frame
+        body_model/inflation/padding: 0.01
+        body_model/robot_description_param: legged_robot_description
+        debug/marker/shadow: true
+        debug/marker/contains: true
+        filter/model_pose_update_interval: 0.05
+        # transforms/buffer_length: 1.0
+        # ignored_links/everywhere:
+        #   - base
+        #   - front_camera_link
+        only_links:
+          - RF_FOOT
+          - RF_calf
+          # - RH_thigh
+          - LF_FOOT
+          - LF_calf
+          # - LH_thigh
+
+camera_rear_filter:
+  cloud_filter_chain:
+    # - name: camera_filter
+    #   type: robot_body_filter/RobotBodyFilterPointCloud2
+    #   params:
+    #     sensor/min_distance: 0.4
+    #     frames/fixed: odom
+    #     frames/sensor: rear_camera_depth_optical_frame
+    #     frames/output: rear_camera_depth_optical_frame
+    #     body_model/inflation/padding: 0.0005
+    #     body_model/robot_description_param: legged_robot_description
+    #     debug/marker/shadow: true
+    #     debug/marker/contains: true
+    #     only_links:
+    #       - rear_camera_depth_optical_frame
+    - name: body_filter
+      type: robot_body_filter/RobotBodyFilterPointCloud2
+      params:
+        sensor/max_distance:  2
+        frames/fixed: odom
+        frames/sensor: rear_camera_depth_optical_frame
+        frames/output: rear_camera_depth_optical_frame
+        filter/model_pose_update_interval:  0.05
+        body_model/inflation/padding: 0.01
+        body_model/robot_description_param: legged_robot_description
+        debug/marker/shadow: true
+        debug/marker/contains: false
+        # filter/model_pose_update_interval: 0.05
+        # transforms/buffer_length: 1.0
+
+        # ignored_links/everywhere:
+        #   - base
+        #   - rear_camera_link
+        #   - RF_hip
+        #   - RF_thigh
+        #   - RF_FOOT
+        #   - RF_calf
+        #   - LF_hip
+        #   - LF_thigh
+        #   - LF_FOOT
+        #   - LF_calf
+        #   - RH_hip
+        #   - LH_hip
+        only_links:
+          - RH_FOOT
+          - RH_calf
+          - RH_thigh
+          - LH_FOOT
+          - LH_calf
+          - LH_thigh
+# camera_frontup_filter:
+#   cloud_filter_chain:
+#     # - name: camera_filter
+#     #   type: robot_body_filter/RobotBodyFilterPointCloud2
+#     #   params:
+#     #     sensor/min_distance: 0.4
+#     #     frames/fixed: odom
+#     #     frames/sensor: rear_camera_depth_optical_frame
+#     #     frames/output: rear_camera_depth_optical_frame
+#     #     body_model/inflation/padding: 0.0005
+#     #     body_model/robot_description_param: legged_robot_description
+#     #     debug/marker/shadow: true
+#     #     debug/marker/contains: true
+#     #     only_links:
+#     #       - rear_camera_depth_optical_frame
+#     - name: body_filter
+#       type: robot_body_filter/RobotBodyFilterPointCloud2
+#       params:
+#         frames/fixed: odom
+#         frames/sensor: frontup_camera_depth_optical_frame
+#         frames/output: frontup_camera_depth_optical_frame
+#         body_model/inflation/padding: 0.01
+#         body_model/robot_description_param: legged_robot_description
+#         debug/marker/shadow: true
+#         debug/marker/contains: true
+#         ignored_links/everywhere:
+#           - base
+#           - frontup_camera_link

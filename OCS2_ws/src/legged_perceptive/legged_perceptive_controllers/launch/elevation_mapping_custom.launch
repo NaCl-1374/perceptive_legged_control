@@ -1,0 +1,84 @@
+<launch>
+    <arg name="manager" default="point_cloud_manager"/>
+
+    <node pkg="nodelet" type="nodelet" name="$(arg manager)" args="manager" output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="$(arg manager)_2" args="manager" output="screen"/>
+
+    <rosparam command="load" file="$(find legged_perceptive_controllers)/config/custom_mapping/body_filter.yaml"/>
+    
+    
+        <!--frontup_camera  VoxelGrid and  sensor_filters-->
+    <node pkg="nodelet" type="nodelet" name="frontup_voxel_grid" args="load pcl/VoxelGrid $(arg manager)" output="screen">
+        <remap from="~input" to="/frontup_camera/depth/color/points"/>
+        <remap from="~output" to="/depth_camera_frontup/point_cloud_self_filtered"/>
+        <rosparam>
+      filter_field_name: z
+      filter_limit_min: 0.01
+      filter_limit_max: 8.0                                                                                      
+      filter_limit_negative: False
+      leaf_size: 0.03                                                                                      
+        </rosparam>
+    </node>
+    <!--frontup_camera sensor_filters -->
+    <!-- <node pkg="nodelet" type="nodelet" name="camera_frontup_filter" args="load sensor_filters/pointcloud2_filter_chain $(arg manager)">
+        <remap from="~input" to="/depth_camera_frontup/point_cloud_self_filtered"/>
+        <remap from="~output" to="/frontup_camera/depth/color/points_filter"/>
+    </node> -->
+    
+    
+    <!--front_camera  VoxelGrid and  sensor_filters-->
+    <node pkg="nodelet" type="nodelet" name="front_voxel_grid" args="load pcl/VoxelGrid $(arg manager)_2" output="screen">
+        <remap from="~input" to="/front_camera/depth/color/points"/>
+        <remap from="~output" to="/depth_camera_front/point_cloud_self_filtered"/>
+        <rosparam>
+      filter_field_name: z
+      filter_limit_min: 0.01
+      filter_limit_max: 3.0                                                                                      
+      filter_limit_negative: False
+      leaf_size: 0.05                                                                                      
+        </rosparam>
+    </node>
+    <!--front_camera sensor_filters -->
+    <node pkg="nodelet" type="nodelet" name="camera_front_filter" args="load sensor_filters/pointcloud2_filter_chain $(arg manager)_2">
+        <remap from="~input" to="/depth_camera_front/point_cloud_self_filtered"/>
+        <remap from="~output" to="/front_camera/depth/color/points_filter"/>
+    </node>
+
+
+    <!--rear_camera  VoxelGrid and  sensor_filters-->
+    <node pkg="nodelet" type="nodelet" name="rear_voxel_grid" args="load pcl/VoxelGrid $(arg manager)" output="screen">
+        <remap from="~input" to="/rear_camera/depth/color/points"/>
+        <remap from="~output" to="/depth_camera_rear/point_cloud_self_filtered"/>
+        <rosparam>
+      filter_field_name: z
+      filter_limit_min: 0.01
+      filter_limit_max: 6.0                                                                                      
+      filter_limit_negative: False
+      leaf_size: 0.05                                                                                      
+        </rosparam>
+    </node> 
+    <!--rear_camera sensor_filters -->
+    <node pkg="nodelet" type="nodelet" name="camera_rear_filter" args="load sensor_filters/pointcloud2_filter_chain $(arg manager)">
+        <remap from="~input" to="/depth_camera_rear/point_cloud_self_filtered"/>
+        <remap from="~output" to="/rear_camera/depth/color/points_filter"/>
+    </node>
+
+
+
+
+
+    <!-- Elevation mapping node -->
+    <node pkg="elevation_mapping" type="elevation_mapping" name="elevation_mapping" output="screen">
+        <rosparam command="load" file="$(find legged_perceptive_controllers)/config/custom_mapping/elevation_mapping.yaml"/>
+        <rosparam command="load" file="$(find legged_perceptive_controllers)/config/custom_mapping/postprocessing/postprocessor_pipeline.yaml"/>
+
+    </node>
+
+    <include file="$(find convex_plane_decomposition_ros)/launch/convex_plane_decomposition.launch">
+        <arg name="parameter_file" value="$(find legged_perceptive_controllers)/config/custom_mapping/convex_plane_decomposition.yaml"/>
+    </include>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_tf_publisher" args="0 0 0 0 0 0 1 map odom"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="world2map" args="0 0 0 0 0 0 1 world map"/>
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="odom_tf_publisher" args="0 0 0 0 0 0 1 map odom"/> -->
+</launch>

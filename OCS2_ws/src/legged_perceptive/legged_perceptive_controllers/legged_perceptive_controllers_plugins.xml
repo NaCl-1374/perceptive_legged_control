@@ -1,0 +1,10 @@
+<library path="lib/liblegged_perceptive_controllers">
+
+    <class name="legged/PerceptiveController"
+           type="legged::PerceptiveController"
+           base_class_type="controller_interface::ControllerBase">
+        <description>
+        </description>
+    </class>
+
+</library>

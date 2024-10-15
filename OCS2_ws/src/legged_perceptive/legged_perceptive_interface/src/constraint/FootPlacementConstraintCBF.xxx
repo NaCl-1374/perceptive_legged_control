@@ -1,0 +1,116 @@
+//
+// Created by qiayuan on 23-1-1.
+//
+
+#include "legged_perceptive_interface/constraint/FootPlacementConstraintCBF.h"
+#include "legged_perceptive_interface/PerceptiveLeggedPrecomputation.h"
+#include "legged_perceptive_interface/PerceptiveLeggedReferenceManager.h"
+#include "FootPlacementConstraintCBF.h"
+
+namespace legged
+{
+FootPlacementConstraintCBF::FootPlacementConstraintCBF(
+    const ControlledSystemBase& systemDynamics, const SwitchedModelReferenceManager& referenceManager,
+    const EndEffectorKinematics<scalar_t>& endEffectorKinematics, size_t contactPointIndex, size_t numVertices,
+    size_t stateDim, size_t inputDim, size_t parameterDim, const std::string& modelName,
+    const std::string& modelFolder = "/tmp/ocs2", bool recompileLibraries = true, bool verbose = false)
+  : StateInputConstraintCppAd(ConstraintOrder::Linear)
+  , referenceManagerPtr_(&referenceManager)
+  , endEffectorKinematicsPtr_(endEffectorKinematics.clone())
+  , contactPointIndex_(contactPointIndex)
+  , numVertices_(numVertices)
+  , systemDynamicsPtr_(systemDynamics.clone())
+  , initialize(stateDim, inputDim, parameterDim, modelName, modelFolder, recompileLibraries, verbose);
+
+{
+}
+
+FootPlacementConstraintCBF::FootPlacementConstraintCBF(const FootPlacementConstraintCBF& rhs)
+  : StateInputConstraintCppAd(ConstraintOrder::Linear)
+  , referenceManagerPtr_(rhs.referenceManagerPtr_)
+  , endEffectorKinematicsPtr_(rhs.endEffectorKinematicsPtr_->clone())
+  , contactPointIndex_(rhs.contactPointIndex_)
+  , numVertices_(rhs.numVertices_)
+  , systemDynamicsPtr_(rhs.systemDynamicsPtr_->clone())
+{
+}
+
+bool FootPlacementConstraintCBF::isActive(scalar_t time) const
+{
+  return dynamic_cast<const PerceptiveLeggedReferenceManager&>(*referenceManagerPtr_)
+      .getFootPlacementFlags(time)[contactPointIndex_];
+}
+
+// 打包函数
+vector_t pack(const matrix_t& matrix, const vector_t& vector)
+{
+  // 获取矩阵和向量的大小
+  size_t rows = matrix.rows();
+  size_t cols = matrix.cols();
+  size_t size = vector.size();
+
+  // 创建一个向量用于存储打包后的数据，前两个元素分别是矩阵的行和列
+  vector_t packedData(2 + rows * cols + size);
+
+  // 设置前两个元素为矩阵的行和列
+  packedData.head(2) << rows, cols;
+
+  // 将矩阵和向量拷贝到打包后的向量中
+  packedData.segment(2, rows * cols) = Map<const vector_t>(matrix.data(), rows * cols);
+  packedData.tail(size) = vector;
+
+  return packedData;
+}
+
+// 解包函数
+std::pair<matrix_t, vector_t> unpack(const vector_t& packedData)
+{
+  // 提取矩阵和向量的行列数
+  size_t rows = packedData(0);
+  size_t cols = packedData(1);
+
+  // 提取矩阵和向量的数据
+  matrix_t matrix = Map<const matrix_t>(packedData.data() + 2, rows, cols);
+  vector_t vector = packedData.tail(packedData.size() - 2 - rows * cols);
+
+  return std::make_pair(matrix, vector);
+}
+
+vector_t FootPlacementConstraintCBF::getParameters(scalar_t time, const PreComputation& preComputation) const
+{
+  const auto param = cast<PerceptiveLeggedPrecomputation>(preComp).getFootPlacementConParameters()[contactPointIndex_];
+  reigonA_=param.a;
+  reigonb_=param.b;
+  return return vector_t(0);
+}
+
+ocs2::ad_vector_t FootPlacementConstraintCBF::constraintFunction(
+    ocs2::ad_scalar_t time, const ocs2::ad_vector_t& state,
+    const ocs2::ad_vector_t& input, const ocs2::ad_vector_t& parameters) const {
+  return ocs2::ad_vector_t();
+}
+
+vector_t FootPlacementConstraintCBF::getValue(
+    scalar_t time, const vector_t& state, const vector_t& input,
+    const PreComputation& preComp) const {
+  const auto param = cast<PerceptiveLeggedPrecomputation>(preComp).getFootPlacementConParameters()[contactPointIndex_];
+
+  const auto positionApprox = endEffectorKinematicsPtr_->getPositionLinearApproximation(state).front();
+  vector_t dot_hs = param.a * positionApprox.dfdx * systemDynamicsPtr_->computeFlowMap(time, state, input, preComp);
+  vector_t hs = param.a * endEffectorKinematicsPtr_->getPosition(state).front() + param.b;
+  return dot_hs + hs;
+}
+
+VectorFunctionLinearApproximation FootPlacementConstraintCBF::getLinearApproximation(
+    scalar_t /*time*/, const vector_t& state, const vector_t& input, const PreComputation& preComp) const
+{
+  VectorFunctionLinearApproximation approx = VectorFunctionLinearApproximation::Zero(numVertices_, state.size(), 0);
+  const auto param = cast<PerceptiveLeggedPrecomputation>(preComp).getFootPlacementConParameters()[contactPointIndex_];
+
+  const auto positionApprox = endEffectorKinematicsPtr_->getPositionLinearApproximation(state).front();
+  approx.f = param.a * positionApprox.f + param.b;
+  approx.dfdx = param.a * positionApprox.dfdx;
+  return approx;
+}
+
+}  // namespace legged

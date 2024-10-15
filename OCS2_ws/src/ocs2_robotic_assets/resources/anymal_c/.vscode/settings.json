@@ -1,0 +1,14 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/me/OCS2_Lib_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/home/me/underactuated",
+        "/opt/drake/lib/python3.8/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/me/OCS2_Lib_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/home/me/underactuated",
+        "/opt/drake/lib/python3.8/site-packages"
+    ]
+}

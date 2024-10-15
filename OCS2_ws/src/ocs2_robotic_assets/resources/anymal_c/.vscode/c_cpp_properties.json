@@ -1,0 +1,43 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/me/OCS2_Lib_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_sqp/hpipm_catkin/include/**",
+        "/home/me/OCS2_Lib_ws/src/hpp-fcl/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_pinocchio/ocs2_centroidal_model/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_core/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_ddp/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_robotic_examples/ocs2_double_integrator/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_robotic_examples/ocs2_double_integrator_ros/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_ipm/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_robotic_examples/ocs2_legged_robot/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_robotic_examples/ocs2_legged_robot_ros/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_mpc/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_oc/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_pinocchio/ocs2_pinocchio_interface/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_python_interface/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_test_tools/ocs2_qp_solver/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2_robotic_assets/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_robotic_tools/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_ros_interfaces/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_pinocchio/ocs2_self_collision/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_pinocchio/ocs2_self_collision_visualization/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_sqp/ocs2_sqp/include/**",
+        "/home/me/OCS2_Lib_ws/src/ocs2/ocs2_thirdparty/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

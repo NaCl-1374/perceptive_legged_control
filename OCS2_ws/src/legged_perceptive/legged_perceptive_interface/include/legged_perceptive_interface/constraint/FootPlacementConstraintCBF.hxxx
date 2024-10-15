@@ -1,0 +1,67 @@
+//
+// Created by qiayuan on 23-1-1.
+//
+
+#pragma once
+
+#include <legged_interface/SwitchedModelReferenceManager.h>
+#include <ocs2_core/constraint/StateInputConstraintCppAd.h>
+#include <ocs2_robotic_tools/end_effector/EndEffectorKinematics.h>
+#include <ocs2_core/dynamics/ControlledSystemBase.h>
+
+namespace legged
+{
+using namespace ocs2;
+using namespace legged_robot;
+
+class FootPlacementConstraintCBF final : public StateInputConstraintCppAd
+{
+public:
+  struct Parameter
+  {
+    matrix_t a;
+    vector_t b;
+  };
+
+  FootPlacementConstraintCBF(const ControlledSystemBase& systemDynamics,
+                             const SwitchedModelReferenceManager& referenceManager,
+                             const EndEffectorKinematics<scalar_t>& endEffectorKinematics, size_t contactPointIndex,
+                             size_t numVertices, size_t stateDim, size_t inputDim, size_t parameterDim,
+                             const std::string& modelName, const std::string& modelFolder = "/tmp/ocs2",
+                             bool recompileLibraries = true, bool verbose = false);
+
+  ~FootPlacementConstraintCBF() override = default;
+  FootPlacementConstraintCBF* clone() const override
+  {
+    return new FootPlacementConstraintCBF(*this);
+  }
+
+  bool isActive(scalar_t time) const override;
+  size_t getNumConstraints(scalar_t /*time*/) const override
+  {
+    return numVertices_;
+  }
+  vector_t getParameters(scalar_t time, const PreComputation& preComputation) const override;
+  ocs2::ad_vector_t constraintFunction(ocs2::ad_scalar_t time, const ocs2::ad_vector_t& state,
+                                       const ocs2::ad_vector_t& input,
+                                       const ocs2::ad_vector_t& parameters) const override;
+  // vector_t getValue(scalar_t time, const vector_t& state, const vector_t& input,
+  //                   const PreComputation& preComp) const override;
+  // VectorFunctionLinearApproximation getLinearApproximation(scalar_t time, const vector_t& state, const vector_t&
+  // input,
+  //                                                          const PreComputation& preComp) const override;
+
+private:
+  FootPlacementConstraintCBF(const FootPlacementConstraintCBF& rhs);
+
+  const SwitchedModelReferenceManager* referenceManagerPtr_;
+  std::unique_ptr<EndEffectorKinematics<scalar_t>> endEffectorKinematicsPtr_;
+  std::unique_ptr<ControlledSystemBase> systemDynamicsPtr_;
+
+  const size_t contactPointIndex_;
+  const size_t numVertices_;
+  matrix_t reigonA_;
+  vector_t reigonb_;
+};
+
+}  // namespace legged

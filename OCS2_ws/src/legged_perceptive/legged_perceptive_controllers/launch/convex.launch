@@ -1,0 +1,32 @@
+<launch>
+    <arg name="robot_name" default="anymal_c" />
+    <arg name="config_name" default="c_series" />
+    <arg name="description_name" default="ocs2_anymal_description"/>
+    <arg name="perception_parameter_file" default="$(find convex_plane_decomposition_ros)/config/parameters.yaml" />
+    <arg name="node_parameter_file" default="$(find plot_terrain)/config/c_series/node.yaml"/>
+
+    <param name="config_name" value="$(arg config_name)"/>
+
+    <param name="forward_velocity" value="0.5"/>
+    <param name="terrain_name" value="terrain_90.png"/>
+    <param name="terrain_scale" value="0.8"/>
+    <param name="adaptReferenceToTerrain" value="true"/>
+
+
+    <!-- Launch node -->
+    <node pkg="plot_terrain" type="plot_terrain_ConvexPlaneDecomposition" name="plot_terrain_ConvexPlaneDecomposition" output="screen" args="" launch-prefix="">
+        <rosparam file="$(arg perception_parameter_file)" command="load"/>
+        <rosparam file="$(arg node_parameter_file)" command="load"/>
+        <param name="debug" value="false"/>
+        <param name="pubTopicName" value="/convex_plane_decomposition_ros/planar_terrain"/>
+        <param name="pubTopicNameRaw" value="/elevation_mapping/elevation_map_raw"/>
+
+        <param name="noiseGauss" value="0.01"/>
+        <param name="noiseUniform" value="0.0"/>
+        <param name="outlier_percentage" value="5.0"/>
+        <param name="blur" value="false"/>
+        <param name="resolution" value="0.04"/>
+        <!-- 0.038986 -->
+
+    </node>
+</launch>

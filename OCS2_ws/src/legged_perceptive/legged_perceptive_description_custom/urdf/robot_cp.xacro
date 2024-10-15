@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
+    <xacro:arg name="sim" default="false"/>
+
+    <xacro:include filename="$(find legged_unitree_description)/urdf/robot.xacro"/>
+
+    <xacro:include filename="$(find legged_perceptive_description_custom)/urdf/sensor_d435.xacro"/>
+    <xacro:include filename="$(find legged_perceptive_description_custom)/urdf/sensor_t265.xacro"/>
+    <xacro:include filename="$(find legged_perceptive_description_custom)/urdf/mid360.xacro"/>
+
+
+    <!-- <xacro:sensor_d435 name="front_camera" topics_ns="front_camera" parent="base">
+        <origin xyz="0.36 -0.0 0.01" rpy="3.141 1.15 0"/>
+    </xacro:sensor_d435> -->
+
+    <!-- <xacro:sensor_d435 name="left_camera" topics_ns="left_camera" parent="base">
+        <origin xyz="0.0 0.15 0.01" rpy="3.141 1.15 1.5707"/>
+    </xacro:sensor_d435> -->
+
+    <!-- <xacro:sensor_d435 name="frontup_camera" topics_ns="frontup_camera" parent="base">
+        <origin xyz="0.36 -0.0 0.03" rpy="3.141 0.3 0"/>
+    </xacro:sensor_d435> -->
+
+    <!-- <xacro:sensor_d435 name="rear_camera" topics_ns="rear_camera" parent="base">
+        <origin xyz="-0.36 -0.0 0.01" rpy="3.141 0.6 3.141"/>
+    </xacro:sensor_d435> -->
+
+    <!-- <xacro:sensor_d435 name="right_camera" topics_ns="right_camera" parent="base">
+        <origin xyz="0.0 -0.15 0.01" rpy="3.141 1.15 -1.5707"/>
+    </xacro:sensor_d435> -->
+
+    <!-- <xacro:sensor_t265 name="tracking_camera" topics_ns="tracking_camera" parent="base">
+        <origin xyz="0.16 0 0.085" rpy="0 -1.04 0"/>
+    </xacro:sensor_t265> -->
+
+
+    <!--<xacro:mid360 name="livox_right" parent="base">
+        <origin xyz="0.365 -0.068 -0.030" rpy="-2.59 1.03 3.09"/>
+    </xacro:mid360>
+
+    <xacro:mid360 name="livox_left" parent="base">
+        <origin xyz="0.365 0.068 -0.030" rpy="2.59 1.03 -3.09"/>
+    </xacro:mid360> -->
+
+</robot>
